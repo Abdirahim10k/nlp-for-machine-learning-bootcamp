@@ -1,0 +1,81 @@
+=== Task 1: Lowercasing ===
+Before: URGENT!!! You have WON a £1,000 gift card. Call 0712345678 NOW!
+After:  urgent!!! you have won a £1,000 gift card. call 0712345678 now!
+
+=== Task 2: Whitespace Normalization ===
+Before: '   The   delivery   was   fast,   and the  packaging   was   great.   '
+After:  'The delivery was fast, and the packaging was great.'
+
+=== Task 3: Regex Cleaning ===
+Before (lowercased T1): urgent!!! you have won a £1,000 gift card. call 0712345678 now!
+After [^a-z\s]:        urgent you have won a  gift card call  now
+Deleted characters:     ['!', '!', '!', '£', '1', ',', '0', '0', '0', '.', '0', '7', '1', '2', '3', '4', '5', '6', '7', '8', '!']
+
+Before (original T1):   URGENT!!! You have WON a £1,000 gift card. Call 0712345678 NOW!
+After custom regex rules: URGENT! You have WON a MONEY gift card. Call PHONE_NUMBER NOW!
+
+=== Task 4: Tokenization ===
+T2 split():         ['I', "don't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price.', 'Not', 'happy', 'at', 'all', '😞'] | Count: 14
+T2 word_tokenize(): ['I', "don't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price', '.', 'Not', 'happy', 'at', 'all', '😞'] | Count: 15
+T4 word_tokenize(): ['The', 'delivery', 'was', 'fast', ',', 'and', 'the', 'packaging', 'was', 'great', '.']
+T4 token count:     11
+T4 vocabulary size: 10 | Unique tokens: [',', '.', 'The', 'and', 'delivery', 'fast', 'great', 'packaging', 'the', 'was']
+
+=== Task 5: Stopwords and Negation ===
+Before (lowercased T2 tokens): ['i', "don't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price', '.', 'not', 'happy', 'at', 'all', '😞']
+After default stopwords:       ["don't", 'think', 'jacket', 'worth', 'price', '.', 'happy', '😞']
+After negation-keeping stops:  ["don't", 'think', 'jacket', 'worth', 'price', '.', 'not', 'happy', '😞']
+
+=== Task 6: Stemming ===
+Word            Porter          Lancaster       Snowball       
+connection      connect         connect         connect        
+connected       connect         connect         connect        
+connecting      connect         connect         connect        
+organization    organ           org             organ          
+organized       organ           org             organ          
+university      univers         univers         univers        
+universal       univers         univers         univers        
+flies           fli             fli             fli            
+wolves          wolv            wolv            wolv           
+better          better          bet             better         
+ran             ran             ran             ran            
+
+=== Task 7: Lemmatization ===
+Word            Default         POS    With POS       
+connection      connection      n      connection     
+connected       connected       v      connect        
+connecting      connecting      v      connect        
+organization    organization    n      organization   
+organized       organized       v      organize       
+university      university      n      university     
+universal       universal       a      universal      
+flies           fly             n      fly            
+wolves          wolf            n      wolf           
+better          better          a      good           
+ran             ran             v      run            
+
+=== Task 8: Sentence Splitting ===
+Before: Mr. Smith arrived in London on Friday. He met the Apple team at 9 a.m.
+Sentence count: 2
+  [1] Mr. Smith arrived in London on Friday.
+  [2] He met the Apple team at 9 a.m.
+
+=== Task 9: POS Tagging and NER ===
+POS tags: [('Mr.', 'NNP'), ('Smith', 'NNP'), ('arrived', 'VBD'), ('in', 'IN'), ('London', 'NNP'), ('on', 'IN'), ('Friday', 'NNP'), ('.', '.'), ('He', 'PRP'), ('met', 'VBD'), ('the', 'DT'), ('Apple', 'NNP'), ('team', 'NN'), ('at', 'IN'), ('9', 'CD'), ('a.m.', 'NN'), ('.', '.')]
+Extracted Named Entities:
+  Smith -> PERSON
+  London -> GPE
+
+=== Task 10: Full Pipeline ===
+Run 1 (Default NLTK stopwords):
+  [lowercase]: i don't think this jacket is worth the price. not happy at all 😞
+  [regex]:     i don't think this jacket is worth the price not happy at all
+  [tokenize]:  ['i', "don't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price', 'not', 'happy', 'at', 'all']
+  [stopwords]: ["don't", 'think', 'jacket', 'worth', 'price', 'happy']
+  [lemmatize]: ["don't", 'think', 'jacket', 'worth', 'price', 'happy']
+Run 2 (Negation-keeping stopwords):
+  [lowercase]: i don't think this jacket is worth the price. not happy at all 😞
+  [regex]:     i don't think this jacket is worth the price not happy at all
+  [tokenize]:  ['i', "don't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price', 'not', 'happy', 'at', 'all']
+  [stopwords]: ["don't", 'think', 'jacket', 'worth', 'price', 'not', 'happy']
+  [lemmatize]: ["don't", 'think', 'jacket', 'worth', 'price', 'not', 'happy']
